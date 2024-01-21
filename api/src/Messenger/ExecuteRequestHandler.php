@@ -15,6 +15,7 @@ namespace App\Messenger;
 use ApiPlatform\Validator\Exception\ValidationException;
 use App\Entity\ExecuteRequest;
 use App\ExpressionLanguage\SenseiExpressionProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -24,7 +25,7 @@ final readonly class ExecuteRequestHandler
 {
      private ExpressionLanguage $expressionLanguage;
 
-    public function __construct(private SenseiExpressionProvider $senseiExpressionProvider)
+    public function __construct(private SenseiExpressionProvider $senseiExpressionProvider, private EntityManagerInterface $em)
     {
         $this->expressionLanguage = new ExpressionLanguage(providers: [$this->senseiExpressionProvider]);
     }
@@ -32,11 +33,16 @@ final readonly class ExecuteRequestHandler
     public function __invoke(ExecuteRequest $request): ExecuteRequest
     {
         try {
-            $this->expressionLanguage->lint($request->getCommand(), null);
+            $this->expressionLanguage->lint(expression: $request->getCommand(), names: null);
         } catch (SyntaxError $e) {
-            throw new ValidationException($e->getMessage());
+            throw new ValidationException(message: $e->getMessage(), previous: $e);
         }
 
-        return $request->setResult($this->expressionLanguage->evaluate($request->getCommand(), ['request' => $request]) ?? null);
+        $request->setCompiled($this->expressionLanguage->compile($request->getCommand()));
+        $request->setResult($this->expressionLanguage->evaluate($request->getCommand(), ['request' => $request]) ?? null);
+
+        $this->em->flush();
+
+        return $request;
     }
 }

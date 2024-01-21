@@ -14,6 +14,7 @@ namespace App\ExpressionLanguage\Function;
 
 use App\Entity\Greeting;
 use App\ExpressionLanguage\FieldType\InputField;
+use App\ExpressionLanguage\FieldType\IntType;
 use App\ExpressionLanguage\FieldType\StringType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -31,7 +32,8 @@ final readonly class CreateGreeting implements ExpressionFunctionInterface
 
     public function getInputFields(): iterable
     {
-        yield new InputField(name: 'name', type: new StringType());
+        yield new InputField(name: 'name', type: new StringType(), required: true);
+        yield new InputField(name: 'number', type: new IntType(), required: false);
     }
 
     public function getResult(): string
@@ -40,17 +42,14 @@ final readonly class CreateGreeting implements ExpressionFunctionInterface
     }
     public function compiler(): \Closure
     {
-        return function (string $name): string {
-            return sprintf('%s(%s)', self::NAME, $name);
-        };
+        return fn(string $name, ?int $number = null) => sprintf('%s(%s, %u)', self::NAME, $name, $number);
     }
 
     public function evaluator(): \Closure
     {
-        return function (array $context, string $name): Greeting {
-            $greeting = new Greeting($name);
+        return function (array $context, string $name, ?int $number = null): Greeting {
+            $greeting = new Greeting($name, $number);
             $this->em->persist($greeting);
-            $this->em->flush();
 
             return $greeting;
         };

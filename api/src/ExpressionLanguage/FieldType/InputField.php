@@ -14,6 +14,6 @@ namespace App\ExpressionLanguage\FieldType;
 
 final readonly class InputField
 {
-    public function __construct(public string $name, public FieldType $type)
+    public function __construct(public string $name, public FieldType $type, public bool $required = true)
     {}
 }

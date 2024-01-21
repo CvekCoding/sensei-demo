@@ -16,8 +16,9 @@ use Symfony\Component\Uid\Uuid;
 class ExecuteRequest
 {
     private mixed $result;
+    private ?string $compiled = null;
 
-    public function __construct(private string $command)
+    public function __construct(private readonly string $command)
     {}
 
     #[ApiProperty(identifier: true)]
@@ -39,6 +40,18 @@ class ExecuteRequest
     public function setResult(mixed $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getCompiled(): ?string
+    {
+        return $this->compiled;
+    }
+
+    public function setCompiled(string $compiled): ExecuteRequest
+    {
+        $this->compiled = $compiled;
 
         return $this;
     }

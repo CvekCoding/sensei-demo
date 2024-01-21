@@ -42,9 +42,7 @@ final readonly class DeleteGreeting implements ExpressionFunctionInterface
 
     public function compiler(): \Closure
     {
-        return function (string $id): string {
-            return sprintf('%s(%s)', self::NAME, $id);
-        };
+        return fn(string $id) => sprintf('%s(%s)', self::NAME, $id);
     }
 
     public function evaluator(): \Closure
@@ -53,7 +51,6 @@ final readonly class DeleteGreeting implements ExpressionFunctionInterface
             $greeting = $this->em->find(Greeting::class, $id);
             if (isset($greeting)) {
                 $this->em->remove($greeting);
-                $this->em->flush();
             }
         };
     }

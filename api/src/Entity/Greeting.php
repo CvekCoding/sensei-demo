@@ -18,8 +18,10 @@ class Greeting
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    public function __construct(#[ORM\Column] #[Assert\NotBlank] private string $name)
-    {}
+    public function __construct(
+        #[ORM\Column] #[Assert\NotBlank] private string $name,
+        #[ORM\Column(nullable: true)] private ?int $number = null
+    ) {}
 
     public function getId(): ?int
     {
@@ -34,6 +36,18 @@ class Greeting
     public function setName(string $name): Greeting
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): Greeting
+    {
+        $this->number = $number;
 
         return $this;
     }
