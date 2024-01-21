@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Aqua Delivery package.
+ * This file is part of the Sensei package.
  *
  * (c) Sergey Logachev <svlogachev@gmail.com>
  *
@@ -16,7 +16,6 @@ use App\Entity\Greeting;
 use App\ExpressionLanguage\FieldType\InputField;
 use App\ExpressionLanguage\FieldType\IntType;
 use App\ExpressionLanguage\FieldType\NullType;
-use App\ExpressionLanguage\FieldType\StringType;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class DeleteGreeting implements ExpressionFunctionInterface

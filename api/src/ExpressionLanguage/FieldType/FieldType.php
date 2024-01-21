@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Aqua Delivery package.
+ * This file is part of the Sensei package.
  *
  * (c) Sergey Logachev <svlogachev@gmail.com>
  *
@@ -14,5 +14,5 @@ namespace App\ExpressionLanguage\FieldType;
 
 interface FieldType
 {
-    public function getName();
+    public function getName(): string;
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Aqua Delivery package.
+ * This file is part of the Sensei package.
  *
  * (c) Sergey Logachev <svlogachev@gmail.com>
  *
@@ -15,7 +15,6 @@ namespace App\Messenger;
 use App\Entity\ExecuteRequest;
 use App\ExpressionLanguage\SenseiExpressionProvider;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

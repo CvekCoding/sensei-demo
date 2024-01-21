@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Aqua Delivery package.
+ * This file is part of the Sensei package.
  *
  * (c) Sergey Logachev <svlogachev@gmail.com>
  *

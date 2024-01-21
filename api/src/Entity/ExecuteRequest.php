@@ -7,7 +7,6 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use App\ExpressionLanguage\Function\ExpressionFunctionInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ApiResource(operations: [
@@ -37,7 +36,7 @@ class ExecuteRequest
         return $this->result;
     }
 
-    public function setResult(mixed $result)
+    public function setResult(mixed $result): self
     {
         $this->result = $result;
 
