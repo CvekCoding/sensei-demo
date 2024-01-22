@@ -15,15 +15,15 @@ namespace App\ExpressionLanguage\Function;
 use App\Entity\Greeting;
 use App\Entity\Person;
 use App\ExpressionLanguage\FieldType\InputField;
-use App\ExpressionLanguage\FieldType\IntType;
 use App\ExpressionLanguage\FieldType\StringType;
+use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class CreateGreeting implements ExpressionFunctionInterface
+final readonly class FindPerson implements ExpressionFunctionInterface
 {
-    public const NAME = 'CREATE_GREETING';
+    public const NAME = 'FIND_PERSON';
 
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(private PersonRepository $personRepository)
     {}
 
     public function getName(): string
@@ -34,25 +34,19 @@ final readonly class CreateGreeting implements ExpressionFunctionInterface
     public function getInputFields(): iterable
     {
         yield new InputField(name: 'name', type: new StringType(), required: true);
-        yield new InputField(name: 'number', type: new IntType(), required: false);
     }
 
     public function getResult(): string
     {
-        return Greeting::class;
+        return Person::class;
     }
     public function compiler(): \Closure
     {
-        return fn(string $name, Person $person, ?int $number = null) => sprintf('%s(%s, %u)', self::NAME, $name, $number);
+        return fn(string $name): string => sprintf('%s(%s)', self::NAME, $name);
     }
 
     public function evaluator(): \Closure
     {
-        return function (array $context, string $name, Person $person, ?int $number = null): Greeting {
-            $greeting = new Greeting($name, $person, $number);
-            $this->em->persist($greeting);
-
-            return $greeting;
-        };
+        return fn(array $context, string $name): ?Person => $this->personRepository->findOneBy(['name' => $name]);
     }
 }

@@ -38,7 +38,7 @@ final readonly class ExecuteRequestHandler
             throw new ValidationException(message: $e->getMessage(), previous: $e);
         }
 
-        $request->setCompiled($this->expressionLanguage->compile($request->getCommand()));
+//        $request->setCompiled($this->expressionLanguage->compile($request->getCommand()));
         $request->setResult($this->expressionLanguage->evaluate($request->getCommand(), ['request' => $request]) ?? null);
 
         $this->em->flush();
