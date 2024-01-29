@@ -16,6 +16,7 @@ use App\Entity\Greeting;
 use App\Entity\Person;
 use App\ExpressionLanguage\FieldType\InputField;
 use App\ExpressionLanguage\FieldType\IntType;
+use App\ExpressionLanguage\FieldType\PersonType;
 use App\ExpressionLanguage\FieldType\StringType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -34,6 +35,7 @@ final readonly class CreateGreeting implements ExpressionFunctionInterface
     public function getInputFields(): iterable
     {
         yield new InputField(name: 'name', type: new StringType(), required: true);
+        yield new InputField(name: 'person', type: new PersonType(), required: true);
         yield new InputField(name: 'number', type: new IntType(), required: false);
     }
 
