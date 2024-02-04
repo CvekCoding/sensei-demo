@@ -17,9 +17,12 @@ class ExecuteRequest
 {
     private mixed $result;
     private ?string $compiled = null;
+    private ?string $toExecute = null;
 
     public function __construct(public readonly string $command, public readonly ?Context $context = null)
-    {}
+    {
+        $this->toExecute = $this->command;
+    }
 
     #[ApiProperty(identifier: true)]
     public function getId(): ?string
@@ -49,5 +52,17 @@ class ExecuteRequest
         $this->compiled = $compiled;
 
         return $this;
+    }
+
+    public function setToExecute(string $toExecute): ExecuteRequest
+    {
+        $this->toExecute = $toExecute;
+
+        return $this;
+    }
+
+    public function getToExecute(): string
+    {
+        return $this->toExecute;
     }
 }

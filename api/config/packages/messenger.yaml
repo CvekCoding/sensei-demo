@@ -20,3 +20,9 @@ framework:
 #                # replace with your transport name here (e.g., my_transport: 'in-memory://')
 #                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
 #                async: 'in-memory://'
+
+        buses:
+            messenger.bus.default:
+                middleware:
+                    # add your own services that implement Symfony\Component\Messenger\Middleware\MiddlewareInterface
+                    - 'App\Messenger\EqualConditionMiddleware'

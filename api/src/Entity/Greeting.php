@@ -16,7 +16,7 @@ class Greeting
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
-    private ?int $id = null;
+    public readonly ?int $id;
 
     public function __construct(
         #[ORM\Column] #[Assert\NotBlank] private string $name,
@@ -44,13 +44,6 @@ class Greeting
     public function getNumber(): ?int
     {
         return $this->number;
-    }
-
-    public function setNumber(int $number): Greeting
-    {
-        $this->number = $number;
-
-        return $this;
     }
 
     public function setPerson(Person $person): Greeting

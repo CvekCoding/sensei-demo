@@ -35,14 +35,14 @@ final readonly class ExecuteRequestHandler
     public function __invoke(ExecuteRequest $request): ExecuteRequest
     {
         try {
-            $this->expressionLanguage->lint(expression: $request->command, names: null);
+            $this->expressionLanguage->lint(expression: $request->getToExecute(), names: null);
         } catch (SyntaxError $e) {
             throw new ValidationException(message: $e->getMessage(), previous: $e);
         }
 
         $request->setResult(
             $this->expressionLanguage->evaluate(
-                $request->command,
+                $request->getToExecute(),
                 array_merge(
                     ['request' => $request],
                     ['greeting' => $request->context->greeting],
