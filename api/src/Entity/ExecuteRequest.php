@@ -18,18 +18,13 @@ class ExecuteRequest
     private mixed $result;
     private ?string $compiled = null;
 
-    public function __construct(private readonly string $command)
+    public function __construct(public readonly string $command, public readonly ?Context $context = null)
     {}
 
     #[ApiProperty(identifier: true)]
     public function getId(): ?string
     {
         return Uuid::v7();
-    }
-
-    public function getCommand(): string
-    {
-        return $this->command;
     }
 
     public function getResult(): mixed

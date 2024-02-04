@@ -21,7 +21,7 @@ class Greeting
     public function __construct(
         #[ORM\Column] #[Assert\NotBlank] private string $name,
         #[ORM\ManyToOne(targetEntity: Person::class, inversedBy: 'greetings')] private Person $person,
-        #[ORM\Column(nullable: true)] private ?int $number = null
+        #[ORM\Column(nullable: true)] public readonly ?int $number = null
     ) {}
 
     public function getId(): ?int

@@ -23,22 +23,33 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final readonly class ExecuteRequestHandler
 {
-     private ExpressionLanguage $expressionLanguage;
+    private ExpressionLanguage $expressionLanguage;
 
-    public function __construct(private SenseiExpressionProvider $senseiExpressionProvider, private EntityManagerInterface $em)
-    {
+    public function __construct(
+        private SenseiExpressionProvider $senseiExpressionProvider,
+        private EntityManagerInterface $em
+    ) {
         $this->expressionLanguage = new ExpressionLanguage(providers: [$this->senseiExpressionProvider]);
     }
 
     public function __invoke(ExecuteRequest $request): ExecuteRequest
     {
         try {
-            $this->expressionLanguage->lint(expression: $request->getCommand(), names: null);
+            $this->expressionLanguage->lint(expression: $request->command, names: null);
         } catch (SyntaxError $e) {
             throw new ValidationException(message: $e->getMessage(), previous: $e);
         }
 
-        $request->setResult($this->expressionLanguage->evaluate($request->getCommand(), ['request' => $request]) ?? null);
+        $request->setResult(
+            $this->expressionLanguage->evaluate(
+                $request->command,
+                array_merge(
+                    ['request' => $request],
+                    ['greeting' => $request->context->greeting],
+                    ['person' => $request->context->person],
+                )
+            ) ?? null
+        );
 
         $this->em->flush();
 
