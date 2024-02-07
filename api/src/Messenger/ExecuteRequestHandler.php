@@ -45,8 +45,8 @@ final readonly class ExecuteRequestHandler
                 $request->getToExecute(),
                 array_merge(
                     ['request' => $request],
-                    ['greeting' => $request->context->greeting],
-                    ['person' => $request->context->person],
+                    ['greeting' => $request->context?->greeting],
+                    ['person' => $request->context?->person],
                 )
             ) ?? null
         );

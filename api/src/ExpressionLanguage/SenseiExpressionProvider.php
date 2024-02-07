@@ -22,6 +22,7 @@ final readonly class SenseiExpressionProvider implements ExpressionFunctionProvi
     public function __construct(#[TaggedIterator(ExpressionFunctionInterface::TAG)] private iterable $functions)
     {}
 
+    /** @var ExpressionFunctionInterface[] */
     public function getFunctions(): iterable
     {
         /** @var ExpressionFunctionInterface $function */
