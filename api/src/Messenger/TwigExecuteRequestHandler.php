@@ -30,7 +30,7 @@ final readonly class TwigExecuteRequestHandler
         private EntityManagerInterface $em,
         SenseiExpressionProvider $senseiExpressionProvider,
     ) {
-        $this->expressionLanguage = new TwigLanguage(options: ['cache' => __DIR__.'/var/cache/twig']);
+        $this->expressionLanguage = new TwigLanguage();
 
         foreach ($senseiExpressionProvider->getFunctions() as $function) {
             $this->expressionLanguage->addFunction(
