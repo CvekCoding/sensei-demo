@@ -14,6 +14,6 @@ namespace App\Entity;
 
 final readonly class Context
 {
-    public function __construct(public ?Greeting $greeting = null, public ?Person $person = null)
+    public function __construct(public ?Greeting $greeting = null, public ?Person $person = null, public ?int $globalValue = null)
     {}
 }

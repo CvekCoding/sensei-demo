@@ -57,6 +57,7 @@ final readonly class TwigExecuteRequestHandler
                 ['request' => $request],
                 ['greeting' => $request->context?->greeting],
                 ['person' => $request->context?->person],
+                ['globalValue' => ['var1' => $request->context?->globalValue]],
             )
         ) ?? null;
 
